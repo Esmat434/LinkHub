@@ -23,9 +23,8 @@ services:
     build: .
     image: linkhub
     container_name: linkhub
-    command: ["python", "manage.py", "runserver", "--bind", "0.0.0.0:8000"]
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
     volumes:
-      - .:/src/app
       - static_volume:/src/app/staticfiles
       - media_volume:/src/app/media
     ports:
@@ -43,7 +42,6 @@ services:
     container_name: celery
     command: celery -A LinkHub worker --loglevel=INFO
     volumes:
-      - .:/src/app
       - static_volume:/src/app/staticfiles
       - media_volume:/src/app/media
     depends_on:
@@ -58,7 +56,6 @@ services:
     image: nginx
     container_name: nginx
     volumes:
-      - .:/src/app
       - static_volume:/app/staticfiles
       - media_volume:/app/media
     ports:
