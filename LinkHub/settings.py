@@ -27,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG')
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS','127.0.0.1').split(',')
-
+CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS','http://127.0.0.1:8080').split(',')
 
 # Application definition
 
@@ -130,11 +130,67 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 
 MEDIA_URL = '/media/'
-MEDIAT_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'file_info': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/django.log',
+            'formatter': 'verbose',
+        },
+        'file_warning' : {
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/django.warning',
+            'formatter': 'verbose'
+        },
+        'file_debug' : {    
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/django.debug',
+            'formatter': 'verbose'
+        },
+        'file_error' : {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/django.error',
+            'formatter': 'verbose'
+        },
+        'file_critical': {
+            'level': 'CRITICAL',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/django.critical',
+            'formatter': 'verbose',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+    },
+    'root': {
+        'handlers': ['file_warning','file_debug','file_info','file_error','file_critical', 'console'],
+        'level': 'DEBUG',
+    },
+}
 
 # Celery Settings
 CELERY_BROKER_URL = config('CELERY_BROKER_URL')
