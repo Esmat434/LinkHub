@@ -7,7 +7,7 @@ def test_register_url():
 
 def test_login_url():
     url=reverse('accounts:login')
-    assert url == '/register/'
+    assert url == '/login/'
 
 def test_logout_url():
     url=reverse('accounts:logout')
