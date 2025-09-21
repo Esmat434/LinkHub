@@ -73,12 +73,12 @@ class PasswordResetRequestView(LogoutRequiredMixin,View):
 
 class PasswordResetConfirmView(LogoutRequiredMixin,View):
     def get(self,request,uuid):
-        get_object_or_404(ForgotPassword,uuid=uuid)
+        get_object_or_404(ForgotPassword,token=uuid)
         form=PasswordResetConfirmForm()
-        return render(request,'accounts/password_reset_confirm.html',{'form':form})
+        return render(request,'accounts/password_reset_confirm.html',{'form':form,'uuid':uuid})
     
     def post(self,request,uuid):
-        token=get_object_or_404(ForgotPassword,uuid=uuid)
+        token=get_object_or_404(ForgotPassword,token=uuid)
         form=PasswordResetConfirmForm(request.POST)
         if form.is_valid():
             form.save(token.user)
