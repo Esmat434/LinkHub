@@ -16,7 +16,7 @@ def user(db):
 @pytest.mark.django_db
 def test_login_required_mixin(user,client):
     client.force_login(user)
-    url = reverse('accounts:login')
+    url = reverse('accounts:profile')
     response = client.get(url)
     
     assert response.status_code == 200
