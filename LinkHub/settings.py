@@ -136,6 +136,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# Email Host Settings
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+
+# Logging Settings
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -199,3 +207,6 @@ CELERY_ACCEPT_CONTENT = [c for c in os.getenv('CELERY_ACCEPT_CONTENT').split(','
 CELERY_TASK_SERIALIZER = config('CELERY_TASK_SERIALIZER')
 CELERY_RESULT_SERIALIZER = config('CELERY_RESULT_SERIALIZER')
 CELERY_TIMEZONE = config('CELERY_TIMEZONE')
+
+# Domain Url
+SITE_DOMAIN=config('SITE_DOMAIN')
