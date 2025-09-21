@@ -208,5 +208,17 @@ CELERY_TASK_SERIALIZER = config('CELERY_TASK_SERIALIZER')
 CELERY_RESULT_SERIALIZER = config('CELERY_RESULT_SERIALIZER')
 CELERY_TIMEZONE = config('CELERY_TIMEZONE')
 
+# Cache Settings
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://redis:6379/1",  # 'redis' همان نام سرویس در docker-compose
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+
 # Domain Url
 SITE_DOMAIN=config('SITE_DOMAIN')
