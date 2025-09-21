@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth import login,authenticate,logout
+from django.core.cache import cache
 from django.contrib import messages
 from django.views import View
 
@@ -90,7 +91,19 @@ class PasswordResetConfirmView(LogoutRequiredMixin,View):
 
 class ProfileView(LoginRequiredMixin,View):
     def get(self,request):
-        return render(request,'accounts/profile.html',{'user':request.user})
+        cache_key = f"user_profile:{request.user.id}"
+
+        user_data = cache.get(cache_key)
+        if not user_data:
+            user = request.user
+            user_data = {
+                'username': user.username,
+                'email': user.email,
+                'avatar': user.avatar.url if user.avatar else None
+            }
+            cache.set(cache_key, user_data, timeout=300)
+
+        return render(request,'accounts/profile.html',{'user':user_data})
     
 class ProfileUpdateView(LoginRequiredMixin,View):
     def get(self,request):
@@ -103,8 +116,13 @@ class ProfileUpdateView(LoginRequiredMixin,View):
         form=ProfileForm(request.POST,request.FILES, instance=user)
         if form.is_valid():
             form.save()
+            self.delete_cache_data(request.user.id)
             messages.success(request,"Your profile successfully updated.")
             return redirect('accounts:profile')
         else:
             messages.error(request,'Your data was incorrect.')
             return render(request,'accounts/profile_update.html',{'form':form})
+    
+    def delete_cache_data(self,user_id):
+        cache_key = f"user_profile:{user_id}"
+        cache.delete(cache_key)
