@@ -85,7 +85,7 @@
                 <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
                     <div class="flex items-center space-x-6">
                         {% if user.avatar %}
-                            <img src="{{ user.avatar.url }}" alt="Profile Picture" class="w-20 h-20 rounded-full">
+                            <img src="{{ user.avatar }}" alt="Profile Picture" class="w-20 h-20 rounded-full">
                         {% else %}
                             <img src="{% static '/images/default.webp' %}" alt="Profile Picture" class="w-20 h-20 rounded-full">
                         {% endif %}
