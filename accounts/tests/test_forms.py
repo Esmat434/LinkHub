@@ -45,13 +45,15 @@ def test_password_reset_confirm_form(user):
         'password':'9191919187',
         'confirm_password':'9191919187'
     }
-    form = PasswordResetConfirmForm(data=data, context={'user':user})
+    form = PasswordResetConfirmForm(data=data)
     assert form.is_valid() == True
 
 @pytest.mark.django_db
 def test_profile_form(user):
     data = {
-        'email':'max@gmail.com'
+        'username':'test',
+        'email':'max@gmail.com',
+        'avatar':None
     }
-    form = ProfileForm(data=data, instance=user)
+    form = ProfileForm(data=data,instance=user)
     assert form.is_valid() == True
