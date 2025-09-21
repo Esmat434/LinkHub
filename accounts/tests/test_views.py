@@ -22,12 +22,13 @@ def auth_user(user,client):
     client.force_login(user)
     return client
 
+@pytest.mark.django_db
 class TestRegisterView:
     @pytest.fixture(autouse=True)
     def setUp(self,client):
         self.client=client
         self.data = {
-            'username':'ali','email':'ali@gmail.com','password':'Test12345',
+            'username':'ali','email':'ali@gmail.com','avatar':'%','password':'Test12345',
             'confirm_password':'Test12345'
         }
     
@@ -43,6 +44,7 @@ class TestRegisterView:
 
         assert response.status_code == 302
 
+@pytest.mark.django_db
 class TestLoginView:
     @pytest.fixture(autouse=True)
     def setUp(self,client,user):
@@ -65,7 +67,7 @@ class TestLoginView:
         assert response.status_code == 302
 
 class TestLogoutView:
-    @pytest.mark.django_db
+    @pytest.fixture(autouse=True)
     def setUp(self,auth_user):
         self.client = auth_user
     
@@ -94,26 +96,26 @@ class TestPasswordResetRequestView:
         url = reverse('accounts:password-reset-request')
         response = self.client.post(url, data=self.data)
 
-        assert response.status_code == 201
+        assert response.status_code == 200
 
 class TestPassowrdResetConfirmView:
     @pytest.fixture(autouse=True)
     def setUp(self,client,user):
         self.client=client
-        self.token_instance = ForgotPassword.objects.create(user)
+        self.token_instance = ForgotPassword.objects.create(user=user)
         self.data = {
             'password':'test919191',
             'confirm_password':'test919191'
         }
     
     def test_get_method_password_reset_confirm(self):
-        url = reverse('accounts:password-reset-confirm', args=[self.token_instance])
+        url = reverse('accounts:password-reset-confirm', args=[self.token_instance.token])
         response = self.client.get(url)
 
         assert response.status_code == 200
     
     def test_post_method_validate(self):
-        url = reverse('accounts:password-reset-confirm', args=[self.token_instance])
+        url = reverse('accounts:password-reset-confirm', args=[self.token_instance.token])
         response = self.client.post(url, data=self.data)
 
         assert response.status_code == 302
@@ -132,20 +134,23 @@ class TestProfileView:
 
 class TestProfileUpdateView:
     @pytest.fixture(autouse=True)
-    def setUp(self,auth_user):
+    def setUp(self,auth_user,user):
         self.client=auth_user
+        self.user=user
         self.data = {
-            'username':'alex'
+            'username':'alex',
+            'email':'test@gmail.com',
+            'avatar':'%'
         }
     
     def test_get_method(self):
         url = reverse('accounts:profile-update')
-        response = self.client.get(url)
+        response = self.client.get(url, instance=self.user)
 
         assert response.status_code == 200
     
     def test_post_method(self):
         url = reverse('accounts:profile-update')
-        response = self.client.get(url, data=self.data)
+        response = self.client.post(url, data=self.data, instance=self.user)
 
         assert response.status_code == 302
