@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect,get_object_or_404
+from django.shortcuts import render,redirect,get_object_or_404,HttpResponse
 from django.contrib.auth import login,authenticate,logout
 from django.core.cache import cache
 from django.contrib import messages
@@ -46,10 +46,12 @@ class LoginView(LogoutRequiredMixin,View):
             if user:
                 login(request,user)
                 messages.success(request,'You successfully loged in')
-                return redirect('/')
+                next_url = request.GET.get('next', '/')
+                return redirect(next_url)
+            messages.error(request,'Invalid username or password')
         else:
-            messages.error(request,'Your password is incorrect')
-            return render(request,'accounts/login.html',{'form':form})
+            messages.error(request,'Invalid username or password')
+        return render(request,'accounts/login.html',{'form':form})
 
 class LogoutView(LoginRequiredMixin,View):
     def get(self,request):
