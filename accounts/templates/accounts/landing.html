@@ -1,0 +1,166 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Project - The Future of Links is Here</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0d1117;
+            color: #c9d1d9;
+            overflow-x: hidden;
+        }
+
+        /* --- PRELOADER STYLES --- */
+        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; background: #0d1117; display: flex; align-items: center; justify-content: center; transition: opacity 0.7s ease-out, visibility 0.7s ease-out; }
+        .loader-container { display: flex; gap: 10px; }
+        .loader-dot { width: 15px; height: 15px; border-radius: 50%; background-color: #8b5cf6; animation: pulse 1.5s infinite ease-in-out; }
+        .loader-dot:nth-child(2) { animation-delay: 0.2s; }
+        .loader-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes pulse { 0%, 80%, 100% { transform: scale(0); opacity: 0; } 40% { transform: scale(1.0); opacity: 1; } }
+        #preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        
+        /* NEW: Added fade-in animation for main content */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+
+        /* --- INTERACTIVE MOUSE BLOB --- */
+        #blob {
+            background: linear-gradient(to right, #8b5cf6, #ec4899);
+            height: 300px; width: 300px; position: fixed; left: 50%; top: 50%;
+            transform: translate(-50%, -50%); border-radius: 50%;
+            animation: rotate 20s infinite; opacity: 0.3; filter: blur(100px);
+            z-index: 1; pointer-events: none;
+        }
+        @keyframes rotate { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+        /* --- Glassmorphism Card Style --- */
+        .glass-card { background: rgba(22, 27, 34, 0.5); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(139, 92, 246, 0.2); }
+
+        /* --- Glowing Button Style --- */
+        .glow-button { position: relative; overflow: hidden; }
+        .glow-button:hover::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 200%; padding-bottom: 200%; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%); animation: ripple 0.7s linear; }
+        @keyframes ripple { from { transform: translate(-50%, -50%) scale(0); } to { transform: translate(-50%, -50%) scale(1); opacity: 0; } }
+
+    </style>
+</head>
+<body>
+
+    <div id="preloader">
+        <div class="loader-container"><div class="loader-dot"></div><div class="loader-dot"></div><div class="loader-dot"></div></div>
+    </div>
+    
+    <div id="blob"></div>
+
+    <div class="main-content-area invisible relative z-10">
+        <header class="fixed top-0 left-0 right-0 z-40">
+            <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+                <a href="#">
+                    <img src="{% static '/images/logo.png' %}" alt="Your Project Logo" class="h-10 w-10 rounded-full object-cover">
+                </a>
+                <div class="space-x-4 flex items-center">
+                    <a href="{% url 'accounts:login' %}" class="text-white hover:text-gray-200 font-medium">Log In</a>
+                    <a href="{% url 'accounts:register' %}" class="bg-violet-600 text-white font-semibold px-5 py-2 rounded-full hover:bg-violet-700 transition-colors shadow-lg shadow-violet-500/20 glow-button">
+                        Sign Up Free
+                    </a>
+                </div>
+            </nav>
+        </header>
+
+        <main>
+            <section class="pt-40 pb-24 text-center overflow-hidden">
+                <div class="container mx-auto px-6">
+                    <h1 class="text-5xl md:text-7xl font-extrabold text-white leading-tight">
+                        One Link to Rule Them All
+                    </h1>
+                    <p class="mt-6 text-lg md:text-xl max-w-3xl mx-auto text-slate-400">
+                        Your digital universe, unified. Share everything you are and everything you do, with just one simple link.
+                    </p>
+                    <a href="{% url 'accounts:register' %}" class="mt-10 inline-block bg-violet-600 text-white font-bold text-lg px-8 py-4 rounded-full hover:bg-violet-700 transition-transform hover:scale-105 shadow-2xl shadow-violet-500/30 glow-button">
+                        Get Started for Free
+                    </a>
+                </div>
+            </section>
+
+            <section class="py-20">
+                <div class="container mx-auto px-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="glass-card p-8 rounded-2xl text-center">
+                            <div class="bg-violet-900/50 text-violet-400 p-4 rounded-full inline-block"><i class="bi bi-palette-fill text-3xl"></i></div>
+                            <h3 class="text-xl font-bold mt-4 text-white">Infinite Customization</h3>
+                            <p class="text-slate-400 mt-2">Design a page that is uniquely yours. From backgrounds to button styles, make your mark.</p>
+                        </div>
+                        <div class="glass-card p-8 rounded-2xl text-center">
+                            <div class="bg-green-900/50 text-green-400 p-4 rounded-full inline-block"><i class="bi bi-bar-chart-line-fill text-3xl"></i></div>
+                            <h3 class="text-xl font-bold mt-4 text-white">Powerful Analytics</h3>
+                            <p class="text-slate-400 mt-2">Gain deep insights into your audience and discover what content performs best.</p>
+                        </div>
+                        <div class="glass-card p-8 rounded-2xl text-center">
+                            <div class="bg-pink-900/50 text-pink-400 p-4 rounded-full inline-block"><i class="bi bi-lightning-charge-fill text-3xl"></i></div>
+                            <h3 class="text-xl font-bold mt-4 text-white">Lightning Fast</h3>
+                            <p class="text-slate-400 mt-2">Built for speed. Your page loads instantly, anywhere in the world, on any device.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <footer class="border-t border-slate-800">
+            <div class="container mx-auto px-6 py-8 text-center text-slate-500">
+                <p>&copy; {% now "Y" %} Your Project. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // --- PRELOADER SCRIPT (Corrected) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const preloader = document.getElementById('preloader');
+            const mainContent = document.querySelector('.main-content-area');
+            
+            function showContent() {
+                if (preloader) preloader.classList.add('hidden');
+                if (mainContent) {
+                    // Make the content visible and then apply the entrance animation
+                    mainContent.classList.remove('invisible');
+                    mainContent.classList.add('animate-fade-in-up');
+                }
+            }
+
+            const startTime = new Date().getTime();
+            const minDisplayTime = 1500; // 1.5 seconds
+
+            window.addEventListener('load', () => {
+                const endTime = new Date().getTime();
+                const loadTime = endTime - startTime;
+                const remainingTime = minDisplayTime - loadTime;
+
+                if (remainingTime > 0) {
+                    setTimeout(showContent, remainingTime);
+                } else {
+                    showContent();
+                }
+            });
+        });
+
+        // --- MOUSE BLOB SCRIPT ---
+        const blob = document.getElementById('blob');
+        if (blob) {
+            window.onpointermove = event => {
+                const { clientX, clientY } = event;
+                blob.animate({
+                    left: `${clientX}px`,
+                    top: `${clientY}px`
+                }, { duration: 3000, fill: "forwards" });
+            };
+        }
+    </script>
+</body>
+</html>
