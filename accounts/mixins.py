@@ -1,4 +1,4 @@
-from django.shortcuts import redirect
+from django.shortcuts import render,redirect
 from django.contrib.auth.mixins import AccessMixin
 from django.contrib import messages
 
@@ -13,5 +13,5 @@ class LoginRequiredMixin(AccessMixin):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             messages.error(request,"You must be login.")
-            return redirect('accounts:login')
+            return render(request,'accounts/landing.html')
         return super().dispatch(request,*args,**kwargs)
