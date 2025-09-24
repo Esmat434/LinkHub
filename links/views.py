@@ -28,7 +28,7 @@ class MyPageView(LoginRequiredMixin,View):
         }
         return render(request,'links/my_page.html',context=context)
 
-class Dashboard(TemplateView):
+class DashboardView(TemplateView):
     template_name = 'links/dashboard.html'
 
 class LinkListView(LoginRequiredMixin,View):
