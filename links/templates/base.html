@@ -51,16 +51,19 @@
                 Dashboard
             </div>
             <nav class="flex-1 p-4 space-y-2">
-                <a href="#" class="flex items-center px-4 py-3 text-indigo-600 bg-indigo-50 dark:bg-gray-700 dark:text-white rounded-lg font-semibold">
-                    <i class="bi bi-speedometer text-xl mr-3"></i> Profile
+                <a href="{% url 'links:my-page' user.slug %}" class="flex items-center px-4 py-3 text-indigo-600 dark:bg-gray-700 dark:text-white rounded-lg font-semibold">
+                    <i class="bi bi-speedometer text-xl mr-3"></i> My Page
                 </a>
-                <a href="#" class="flex items-center px-4 py-3 text-indigo-600  dark:bg-gray-700 dark:text-white rounded-lg font-semibold">
+                <a href="{% url 'links:dashboard' %}" class="flex items-center px-4 py-3 text-indigo-600 bg-indigo-50 dark:bg-gray-700 dark:text-white rounded-lg font-semibold">
+                    <i class="bi bi-speedometer text-xl mr-3"></i> Dashboard
+                </a>
+                <a href="{% url 'accounts:profile' %}" class="flex items-center px-4 py-3 text-indigo-600  dark:bg-gray-700 dark:text-white rounded-lg font-semibold">
                     <i class="bi bi-person-fill text-xl mr-3"></i> Profile
                 </a>
-                <a href="#" class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+                <a href="{% url 'links:link-list' %}" class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
                     <i class="bi bi-link-45deg text-xl mr-3"></i> Links
                 </a>
-                <a href="#" class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+                <a href="{% url 'links:link-create' %}" class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
                     <i class="bi bi-link-45deg text-xl mr-3"></i> Add Link
                 </a>
             </nav>
