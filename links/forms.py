@@ -6,7 +6,7 @@ from .models import (
     Link
 )
 
-class LinkFormCreation(forms.ModelForm):
+class LinkCreationForm(forms.ModelForm):
     class Meta:
         model = Link
         fields =  (
@@ -51,7 +51,7 @@ class LinkFormCreation(forms.ModelForm):
             link.save()
         return link
     
-class LinkFormUpdate(forms.ModelForm):
+class LinkUpdateForm(forms.ModelForm):
     class Meta:
         model = Link
         fields = (
