@@ -11,7 +11,7 @@ class Link(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='links', verbose_name='link')
     title = models.CharField(max_length=150,verbose_name='title')
     url = models.URLField(verbose_name='url')
-    icon = models.ImageField(upload_to='links/icons', verbose_name='icon')
+    icon = models.ImageField(upload_to='links/icons', verbose_name='icon', blank=True, null=True)
     status = models.CharField(max_length=10,choices=LinkStatus, default=LinkStatus.enable, verbose_name='status')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='created date')
 
