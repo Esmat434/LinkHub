@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.contrib.auth import get_user_model
 
 from links.models import (
-    Link,PageView
+    Link
 )
 
 User = get_user_model()
