@@ -13,10 +13,10 @@ class LinkCreationForm(forms.ModelForm):
             'title','url','icon','status'
         )
         widgets = {
-            'title': forms.TextInput(attrs={'class':'form-control','placeholder':'Enter Title'}),
-            'url': forms.URLInput(attrs={'class':'form-control','placeholder':'Enter Url'}),
-            'icon': forms.FileInput(attrs={'class':'form-control'}),
-            'status': forms.Select(attrs={'class':'form-control', 'placeholder':'Select Status'})
+            'title': forms.TextInput(attrs={'class':'form-control form-control-lg','placeholder':'My Personal Website','id':'title'}),
+            'url': forms.URLInput(attrs={'class':'form-control form-control-lg','placeholder':'https://example.com', 'id':'url'}),
+            'icon': forms.FileInput(attrs={'class':'form-control', 'id':'iconFile'}),
+            'status': forms.Select(attrs={'class':'form-control form-control-lg', 'placeholder':'Select Status','id':'status'})
         }
     
     def __init__(self, *args, **kwargs):
@@ -58,10 +58,10 @@ class LinkUpdateForm(forms.ModelForm):
             'title','url','icon','status'
         )
         widgets = {
-            'title': forms.TextInput(attrs={'class':'form-control','placeholder':'Enter Title'}),
-            'url': forms.URLInput(attrs={'class':'form-control', 'placeholder':'Enter Url'}),
-            'icon': forms.FileInput(attrs={'class':'form-control'}),
-            'status': forms.Select(attrs={'class':'form-control', 'placeholder':'Select Status'})
+            'title': forms.TextInput(attrs={'class':'form-control form-control-lg','placeholder':'My Personal Website','id':'title'}),
+            'url': forms.URLInput(attrs={'class':'form-control form-control-lg','placeholder':'https://example.com', 'id':'url'}),
+            'icon': forms.FileInput(attrs={'class':'form-control', 'id':'iconFile'}),
+            'status': forms.Select(attrs={'class':'form-control form-control-lg', 'placeholder':'Select Status','id':'status'})
         }
     
     def __init__(self, *args, **kwargs):
