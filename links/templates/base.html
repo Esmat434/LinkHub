@@ -3,68 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}My Dashboard{% endblock %}</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    {% block links %}{% endblock %}
+
     <style>
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f3f4f6;
         }
         .dark body { background-color: #111827; }
-
-        /* === PRELOADER STYLES START === */
+        
+        /* Preloader styles remain the same */
         #preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999;
             background: #111827; display: flex; align-items: center; justify-content: center;
             transition: opacity 0.7s ease-out, visibility 0.7s ease-out;
         }
+        #preloader.hidden { opacity: 0; visibility: hidden; }
         .loader-container { display: flex; gap: 10px; }
-        .loader-dot {
-            width: 15px; height: 15px; border-radius: 50%; background-color: #4f46e5;
-            animation: pulse 1.5s infinite ease-in-out;
-        }
+        .loader-dot { width: 15px; height: 15px; border-radius: 50%; background-color: #4f46e5; animation: pulse 1.5s infinite ease-in-out; }
         .loader-dot:nth-child(2) { animation-delay: 0.2s; }
         .loader-dot:nth-child(3) { animation-delay: 0.4s; }
         @keyframes pulse { 0%, 80%, 100% { transform: scale(0); opacity: 0; } 40% { transform: scale(1.0); opacity: 1; } }
         
-        #preloader.hidden { opacity: 0; visibility: hidden; }
-        
-        .content-fade-in {
-            opacity: 0;
-            animation: fadeIn 0.8s ease-in-out forwards;
-        }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
         /* For initially hiding the main content */
-        .main-content-area { visibility: hidden; }
-        .main-content-area.visible { visibility: visible; }
-        /* === PRELOADER STYLES END === */
+        .main-content-area { visibility: hidden; opacity: 0; transition: opacity 0.5s ease-in-out; }
+        .main-content-area.visible { visibility: visible; opacity: 1; }
+        
+        /* form error and message */
+        @keyframes slideDownAndFade {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-enter {
+            animation: slideDownAndFade 0.5s ease-out forwards;
+        }
     </style>
     {% block styles %}{% endblock %}
 </head>
 <body class="dark:bg-gray-900">
-    <div class="flex min-h-screen">
-        <aside class="w-64 bg-white dark:bg-gray-800 shadow-md hidden lg:flex flex-col">
+    <div id="preloader">
+        <div class="loader-container">
+            <div class="loader-dot"></div>
+            <div class="loader-dot"></div>
+            <div class="loader-dot"></div>
+        </div>
+    </div>
+
+    <div class="flex min-h-screen bg-gray-100 dark:bg-gray-900">
+        <aside id="sidebar" class="w-64 bg-white dark:bg-gray-800 shadow-md fixed lg:relative inset-y-0 left-0 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-50 flex flex-col">
             <div class="p-6 text-2xl font-bold text-indigo-600 dark:text-indigo-400 border-b dark:border-gray-700">
                 Dashboard
             </div>
             <nav class="flex-1 p-4 space-y-2">
-                <a href="{% url 'links:my-page' user.slug %}" class="flex items-center px-4 py-3 text-indigo-600 dark:bg-gray-700 dark:text-white rounded-lg font-semibold">
-                    <i class="bi bi-speedometer text-xl mr-3"></i> My Page
+                <a href="{% url 'links:my-page' user.slug %}" class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-gray-700 rounded-lg">
+                    <i class="bi bi-person-circle text-xl mr-3"></i> My Page
                 </a>
-                <a href="{% url 'links:dashboard' %}" class="flex items-center px-4 py-3 text-indigo-600 bg-indigo-50 dark:bg-gray-700 dark:text-white rounded-lg font-semibold">
+                <a href="{% url 'links:dashboard' %}" class="flex items-center px-4 py-3 text-indigo-600 dark:bg-gray-700 dark:text-white rounded-lg font-semibold">
                     <i class="bi bi-speedometer text-xl mr-3"></i> Dashboard
                 </a>
-                <a href="{% url 'accounts:profile' %}" class="flex items-center px-4 py-3 text-indigo-600  dark:bg-gray-700 dark:text-white rounded-lg font-semibold">
+                <a href="{% url 'accounts:profile' %}" class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-gray-700 rounded-lg">
                     <i class="bi bi-person-fill text-xl mr-3"></i> Profile
                 </a>
-                <a href="{% url 'links:link-list' %}" class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+                <a href="{% url 'links:link-list' %}" class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-gray-700 rounded-lg">
                     <i class="bi bi-link-45deg text-xl mr-3"></i> Links
                 </a>
-                <a href="{% url 'links:link-create' %}" class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
-                    <i class="bi bi-link-45deg text-xl mr-3"></i> Add Link
+                <a href="{% url 'links:link-create' %}" class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-gray-700 rounded-lg">
+                    <i class="bi bi-plus-circle text-xl mr-3"></i> Add Link
                 </a>
             </nav>
             <div class="p-4 border-t dark:border-gray-700">
@@ -73,43 +91,74 @@
                         <i class="bi bi-box-arrow-left text-xl mr-3"></i> Logout
                     </a>
                 {% else %}
-                    <a href="{% url 'accounts:register' %}" class="flex items-center px-4 py-3 text-green-500 hover:bg-red-50 dark:hover:bg-gray-700 rounded-lg">
-                        <i class="bi bi-box-arrow-left text-xl mr-3"></i> Sign Up
+                    <a href="{% url 'accounts:register' %}" class="flex items-center px-4 py-3 text-green-500 hover:bg-green-50 dark:hover:bg-gray-700 rounded-lg">
+                        <i class="bi bi-box-arrow-in-right text-xl mr-3"></i> Sign Up
                     </a>
                 {% endif %}
             </div>
         </aside>
-        <main class="flex-1 p-4 sm:p-6 lg:p-8">
-            {% block content %}
-            {% endblock %}
-        </main>
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black opacity-50 hidden z-40 lg:hidden"></div>
+
+        <div class="flex-1 flex flex-col">
+            <header class="bg-white dark:bg-gray-800 shadow-md lg:hidden flex justify-between items-center p-4">
+                <div class="text-xl font-bold text-indigo-600 dark:text-indigo-400">Dashboard</div>
+                <button id="menu-toggle" class="text-gray-700 dark:text-gray-300 focus:outline-none">
+                    <i class="bi bi-list text-3xl"></i>
+                </button>
+            </header>
+            <main class="flex-1 p-4 sm:p-6 lg:p-8">
+                {% block content %}
+                {% endblock %}
+            </main>
+        </div>
     </div>
 
     {% block scripts %}{% endblock %}
 
     <script>
+        // --- Preloader Script ---
         function showContent() {
             const preloader = document.getElementById('preloader');
-            const mainContent = document.querySelector('.main-content-area');
+            // IMPORTANT: Make sure your content block has the class "main-content-area"
+            const mainContent = document.querySelector('.main-content-area'); 
+            
             if (preloader) {
                 preloader.classList.add('hidden');
             }
             if (mainContent) {
                 mainContent.classList.add('visible');
+            } else {
+                // If content area not found, still hide preloader to prevent getting stuck
+                console.warn('Element with class "main-content-area" not found. Preloader is hidden, but content fade-in might not work.');
             }
         }
+        
         const startTime = new Date().getTime();
         const minDisplayTime = 1000; // 1 second
         window.addEventListener('load', function() {
             const endTime = new Date().getTime();
             const loadTime = endTime - startTime;
             const remainingTime = minDisplayTime - loadTime;
-            if (remainingTime > 0) {
-                setTimeout(showContent, remainingTime);
-            } else {
-                showContent();
-            }
+            
+            setTimeout(showContent, remainingTime > 0 ? remainingTime : 0);
         });
+
+        // --- Mobile Menu Toggle Script ---
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+        function toggleMenu() {
+            sidebar.classList.toggle('-translate-x-full');
+            sidebarOverlay.classList.toggle('hidden');
+        }
+
+        if (menuToggle) {
+            menuToggle.addEventListener('click', toggleMenu);
+        }
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener('click', toggleMenu);
+        }
     </script>
 </body>
 </html>
