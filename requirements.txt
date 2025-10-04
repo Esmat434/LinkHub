@@ -7,3 +7,6 @@ pillow==11.3.0
 pytest==8.4.2
 pytest-django==4.11.1
 django_redis==6.0.0
+user-agents==2.2.0
+ua-parser==1.0.1
+PyYAML==6.0.3 
