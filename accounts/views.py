@@ -97,14 +97,14 @@ class ProfileView(LoginRequiredMixin,View):
 
         user_data = cache.get(cache_key)
         if not user_data:
-            user = request.user
             user_data = {
-                'username': user.username,
-                'email': user.email,
-                'avatar': user.avatar.url if user.avatar else None
+                'slug': request.user.slug,
+                'username': request.user.username,
+                'email': request.user.email,
+                'avatar': request.user.avatar.url if request.user.avatar else None
             }
-            cache.set(cache_key, user_data, timeout=300)
-
+            cache.set(cache_key, user_data, timeout=60)
+        
         return render(request,'accounts/profile.html',{'user':user_data})
     
 class ProfileUpdateView(LoginRequiredMixin,View):
