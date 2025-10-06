@@ -9,6 +9,15 @@ COPY requirements.txt .
 
 RUN apk add --no-cache \
     build-base \
+    gcc \
+    musl-dev \
+    python3-dev \
+    mariadb-dev \
+    libffi-dev \
+    libjpeg-turbo-dev \
+    zlib-dev \
+    linux-headers \
+    build-base \
     mariadb-dev \
     libjpeg-turbo-dev \
     zlib-dev
