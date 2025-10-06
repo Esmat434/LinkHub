@@ -5,7 +5,7 @@ LinkHub is a fully-featured web application built using Python and Django, desig
 <div align="center">
   <img src="./docs/dashboard.png" alt="Database Diagram" width="80%" />
 </div>
-##
+<br>
 <div align="center">
   <img src="./docs/my_page.png" alt="Database Diagram" width="80%" />
 </div>
