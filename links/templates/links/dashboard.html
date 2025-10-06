@@ -3,6 +3,29 @@
 
 {% block content %}
     <div class="w-full max-w-4xl mx-auto">
+        <div class="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-xl shadow-2xl mb-8 border border-blue-200 dark:border-blue-700">
+            <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-3 flex items-center">
+                <i class="bi bi-share-fill text-blue-500 mr-3"></i>
+                Share Your Profile Link
+            </h2>
+            
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-3 sm:space-y-0 sm:space-x-3 sm:space-x-reverse" dir="ltr">
+                
+                <input type="text" 
+                       id="profileLink"
+                       readonly 
+                       value="{{ my_link }}" 
+                       class="flex-1 px-4 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg text-sm truncate cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 hover:border-blue-500">
+                
+                <button id="copyButton" 
+                        class="px-5 py-3 text-sm font-bold text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 transition duration-150 flex items-center justify-center whitespace-nowrap">
+                    <i class="bi bi-clipboard-fill mr-2"></i>
+                    Copy Link
+                </button>
+            </div>
+            <p id="copyMessage" class="text-green-500 text-sm mt-2 hidden">Copied to clipboard! ✅</p>
+        </div>
+
         <div class="mb-8">
             <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Welcome back, {{ user.username }}!</h1>
             <p class="text-gray-500 dark:text-gray-400 mt-1">Here's your account overview. Manage your links and profile information.</p>
@@ -24,4 +47,36 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        document.getElementById('copyButton').addEventListener('click', function() {
+            const linkInput = document.getElementById('profileLink');
+            const copyMessage = document.getElementById('copyMessage');
+            
+            linkInput.select();
+            linkInput.setSelectionRange(0, 99999); 
+            
+            navigator.clipboard.writeText(linkInput.value).then(function() {
+                copyMessage.classList.remove('hidden');
+                
+                setTimeout(() => {
+                    copyMessage.classList.add('hidden');
+                }, 2000);
+                
+                const originalText = 'Copy Link';
+                const originalIcon = '<i class="bi bi-clipboard-fill mr-2"></i>';
+                
+                document.getElementById('copyButton').innerHTML = '<i class="bi bi-check-lg mr-2"></i> Copied!';
+                
+                setTimeout(() => {
+                    document.getElementById('copyButton').innerHTML = originalIcon + originalText;
+                }, 1000);
+
+            }).catch(function(err) {
+                alert('Could not copy text: ' + err);
+            });
+        });
+    </script>
 {% endblock %}
