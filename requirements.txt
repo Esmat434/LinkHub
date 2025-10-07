@@ -10,3 +10,4 @@ django_redis==6.0.0
 user-agents==2.2.0
 ua-parser==1.0.1
 PyYAML==6.0.3 
+locust==2.41.5
