@@ -57,22 +57,16 @@ linkhub/
    cd LinkHub
    ```
 
+2. **Copy .env.example into .env:**
+
+   ```bash
+   copy .env.example .env
+   ```
+
 2. **Build Docker containers:**
 
    ```bash
-   docker-compose build
-   ```
-
-3. **Start the services:**
-
-   ```bash
-   docker-compose up
-   ```
-
-4. **Apply migrations:**
-
-   ```bash
-   docker exec linkhub python manage.py migrate
+   docker-compose up -d --build
    ```
 
 5. **Create superuser (optional):**
