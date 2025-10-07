@@ -23,7 +23,7 @@ services:
     build: .
     image: linkhub
     container_name: linkhub
-    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    command: ["gunicorn", "--bind", "0.0.0.0:8000", "LinkHub.wsgi:application"]
     volumes:
       - .:/src/app
       - static_volume:/src/app/staticfiles
