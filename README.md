@@ -60,22 +60,22 @@ linkhub/
 2. **Copy .env.example into .env:**
 
    ```bash
-   copy .env.example .env
+   cp .env.example .env
    ```
 
-2. **Build Docker containers:**
+3. **Build Docker containers:**
 
    ```bash
    docker-compose up -d --build
    ```
 
-5. **Create superuser (optional):**
+4. **Create superuser (optional):**
 
    ```bash
    docker exec -it linkhub python manage.py createsuperuser
    ```
 
-6. **Access the app:**
+5. **Access the app:**
 
    * Web: `http://localhost:8080`
    * Nginx reverse proxy: `http://localhost`
